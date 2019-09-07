@@ -61,7 +61,8 @@ export async function registerAuthEndpoints(expressApp: express.Express) {
       decodeURIComponent(req.query.redirect_uri), 'xxxxxx',
       req.query.state)
     console.log(responseurl)
-    return res.redirect(responseurl)
+    // return res.redirect(responseurl)
+    return res.redirect('/login');
   })
 
   expressApp.all('/faketoken', async (req, res) => {

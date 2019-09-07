@@ -263,13 +263,11 @@ const expressServer = expressApp.listen(appPort, () => {
   console.log(`Smart home server listening at ${address}:${port}`)
 
   if (Config.useNgrok) {
-    ngrok.connect(Config.expressPort, (err, url) => {
-      if (err) {
-        console.error('Ngrok was unable to start')
-        console.error(err)
-        process.exit()
-      }
-
+    ngrok.connect({
+      addr: Config.expressPort,
+      region: 'ap',
+      hostname: 'localapp.live',
+    }).then(url => {
       console.log('')
       console.log('COPY & PASTE NGROK URL BELOW')
       console.log(url)
@@ -289,6 +287,10 @@ const expressServer = expressApp.listen(appPort, () => {
       console.log('')
 
       console.log('Finally press the \'TEST DRAFT\' button')
+    }).catch(err => {
+      console.error('Ngrok was unable to start')
+      console.error(err)
+      process.exit()
     })
   }
 })
